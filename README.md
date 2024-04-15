@@ -17,6 +17,8 @@ Welcome to the Syllabus-Analysis project! This program is designed to analyze Mi
 - Python 3.12
 - tkinter
 - python-docx
+- comtypes
+- pdf2docx
 
 ## Usage
 
