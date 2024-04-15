@@ -112,7 +112,7 @@ def concatList(listOne):
     # Iterate through each sublist in the input list.
     for i in range(len(listOne)):
         # Join the elements of the current sublist into a single string and append to result.
-        result.append(''.join(listOne[i]))
+        result.append(' '.join(listOne[i]))
 
     # Return the list containing concatenated strings.
     return result

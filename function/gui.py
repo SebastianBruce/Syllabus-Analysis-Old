@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, ttk
 from function import forDocxFile, PDFConvert
 
 
@@ -9,9 +9,7 @@ def createGui():
     root = tk.Tk()
     # Set the title, size, and resizability of the window
     root.title("Syllabus-Analysis")
-    # Set the title, size, and resizability of the window
     root.minsize(600, 600)
-    # Set the title, size, and resizability of the window
     root.resizable(True, True)
 
     # Add the background image, greeting message, content message, and instruction message to the GUI
@@ -20,8 +18,13 @@ def createGui():
     addContentMessage(root)
     addInstructionMessage(root)
 
-    # Return the root window
-    return root
+    # Create a progress bar
+    progress_bar = ttk.Progressbar(root, orient="horizontal", length=300, mode="determinate")
+    progress_bar.pack(pady=10)
+
+    # Return the root window and progress bar
+    return root, progress_bar
+
 
 
 """Add a background image to the GUI."""
@@ -61,10 +64,7 @@ def addInstructionMessage(root):
 
 
 """Process a DOCX file and return the result."""
-def processDocxFile(docxFilePath):
-
-    # Set the output path for the processed file
-    outputPath = filedialog.asksaveasfilename(defaultextension=".docx")
+def processDocxFile(docxFilePath, outputPath):
 
     # If the user selects a PDF file, convert it to a docx file
     if docxFilePath.lower().endswith('.pdf'):
@@ -97,8 +97,23 @@ def selectFiles():
     return filedialog.askopenfilenames()
 
 """Process multiple files."""
-def processMultipleFiles(filePaths):
+def processMultipleFiles(filePaths, progress_bar):
+    total_files = len(filePaths)
+
+    # Set the output path for the processed file
+    outputPath = filedialog.asksaveasfilename(defaultextension=".docx")
+
     # Iterate over each selected file path
-    for filePath in filePaths:
+    for idx, filePath in enumerate(filePaths, 1):
+
         # Process each file
-        processDocxFile(filePath)
+        processDocxFile(filePath, outputPath)
+
+        # Update progress bar value based on the current file index
+        progress_value = (idx / total_files) * 100
+        progress_bar["value"] = progress_value
+        # Update the GUI to reflect the changes
+        progress_bar.update()
+
+    # Reset progress bar after processing all files
+    progress_bar["value"] = 0
