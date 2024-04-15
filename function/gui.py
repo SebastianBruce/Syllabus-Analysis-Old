@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
-from function import forDocxFile
+from function import forDocxFile, PDFConvert
 
 
 """Create and configure the GUI."""
@@ -62,10 +62,17 @@ def addInstructionMessage(root):
 
 """Process a DOCX file and return the result."""
 def processDocxFile(docxFilePath):
-    # Set the input path for the DOCX file
-    inputData = docxFilePath
+
     # Set the output path for the processed file
     outputPath = filedialog.asksaveasfilename(defaultextension=".docx")
+
+    # If the user selects a PDF file, convert it to a docx file
+    if docxFilePath.lower().endswith('.pdf'):
+        docxFilePath = PDFConvert.convertToDocx(docxFilePath)
+    
+    # Set the input path for the DOCX file
+    inputData = docxFilePath
+
     # Set the list of functions to be applied to the input data
     functionsList = [forDocxFile.weekFinder, forDocxFile.dupCheck,
                      forDocxFile.targetWordsChecker, forDocxFile.concatList,
@@ -77,11 +84,21 @@ def processDocxFile(docxFilePath):
         # Update the input data with the result of the current function
         inputData = function(inputData)
 
+    # Convert the generated schedule to a PDF
+    PDFConvert.convertToPdf(outputPath)
+
     # Return the result of the last function
     return inputData
 
 
 """Open a file dialog and return the selected file path."""
-def selectFile():
-    # Open a file dialog to select a file
-    return filedialog.askopenfilename()
+def selectFiles():
+    # Open a file dialog to select multiple files
+    return filedialog.askopenfilenames()
+
+"""Process multiple files."""
+def processMultipleFiles(filePaths):
+    # Iterate over each selected file path
+    for filePath in filePaths:
+        # Process each file
+        processDocxFile(filePath)

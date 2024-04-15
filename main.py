@@ -4,9 +4,8 @@ from function import gui
 def main():
     # Create the GUI
     root = gui.createGui()
-    # Create a button to select the Word file for analysis. Use a lambda function to ensure that gui.processDocxFile(
-    # gui.selectFile()) executes when the button is clicked, rather than when the button is created.
-    btn = gui.tk.Button(root, text="Click me", command=lambda: gui.processDocxFile(gui.selectFile()))
+    # Create a button to select the Word files for analysis.
+    btn = gui.tk.Button(root, text="Click me", command=lambda: gui.processMultipleFiles(gui.selectFiles()))
     # Set the position of the button
     btn.pack()
     # Run the main loop of the GUI
@@ -14,3 +13,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
