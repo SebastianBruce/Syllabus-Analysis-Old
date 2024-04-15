@@ -78,7 +78,6 @@ The second function uses .join to merge the sublists of the nested list into str
 Ultimately, it returns a single list with a length of 15.
 '''
 
-
 def targetWordsChecker(listOne):
     # Initialize an empty list to store the modified sublists.
     newList = []

@@ -26,8 +26,6 @@ def createGui():
     # Return the root window and progress bar
     return root, progress_bar
 
-
-
 """Add a background image to the GUI."""
 def addBackgroundImage(root):
     # Load the background image
