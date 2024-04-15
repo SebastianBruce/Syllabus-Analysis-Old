@@ -123,17 +123,21 @@ Inserting a list of length fifteen into the second column of a table, starting f
 in a docx file, and saving it as a new file.
 '''
 
-def insertToTable(listOne, outputFilePath):
-    # Open the Word document file provided by client.
-    doc = Document(r"static/schedule.docx")
+def insertToTable(listOne, outputFilePath, column):
 
+    if column == 1:
+        # Open the Word document file provided by client.
+        doc = Document(r"static/schedule.docx")
+    else:
+        # Open the Word document file provided by client.
+        doc = Document(outputFilePath)
     # Get the first table in the document.
     table = doc.tables[0]
 
     # Iterate through each element in the input list.
     for i in range(len(listOne)):
         # Get the cell in the first column and i+1 row of the table.
-        cell = table.cell(i + 1, 1)
+        cell = table.cell(i + 1, column)
 
         # Set the text of the cell to the corresponding element in the input list.
         cell.text = listOne[i]

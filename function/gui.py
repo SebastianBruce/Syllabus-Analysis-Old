@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, ttk
 from function import forDocxFile, PDFConvert
+import time
 
 
 """Create and configure the GUI."""
@@ -64,7 +65,7 @@ def addInstructionMessage(root):
 
 
 """Process a DOCX file and return the result."""
-def processDocxFile(docxFilePath, outputPath):
+def processDocxFile(docxFilePath, outputPath, column):
 
     # If the user selects a PDF file, convert it to a docx file
     if docxFilePath.lower().endswith('.pdf'):
@@ -77,7 +78,7 @@ def processDocxFile(docxFilePath, outputPath):
     functionsList = [forDocxFile.weekFinder, forDocxFile.dupCheck,
                      forDocxFile.targetWordsChecker, forDocxFile.concatList,
                      # ref.https://www.w3schools.com/python/python_lambda.asp
-                     lambda x: forDocxFile.insertToTable(x, outputPath)]
+                     lambda x: forDocxFile.insertToTable(x, outputPath, column)]
 
     # Apply the functions to the input data
     for function in functionsList:
@@ -98,6 +99,9 @@ def selectFiles():
 
 """Process multiple files."""
 def processMultipleFiles(filePaths, progress_bar):
+
+    column = 0
+
     total_files = len(filePaths)
 
     # Set the output path for the processed file
@@ -106,8 +110,10 @@ def processMultipleFiles(filePaths, progress_bar):
     # Iterate over each selected file path
     for idx, filePath in enumerate(filePaths, 1):
 
+        column += 1
+
         # Process each file
-        processDocxFile(filePath, outputPath)
+        processDocxFile(filePath, outputPath, column)
 
         # Update progress bar value based on the current file index
         progress_value = (idx / total_files) * 100
