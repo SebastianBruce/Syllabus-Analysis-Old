@@ -65,7 +65,7 @@ def addInstructionMessage(root):
 
 
 """Process a DOCX file and return the result."""
-def processDocxFile(docxFilePath, outputPath, column):
+def processDocxFile(docxFilePath, outputPath, column, filePath):
 
     # If the user selects a PDF file, convert it to a docx file
     if docxFilePath.lower().endswith('.pdf'):
@@ -78,7 +78,7 @@ def processDocxFile(docxFilePath, outputPath, column):
     functionsList = [forDocxFile.weekFinder, forDocxFile.dupCheck,
                      forDocxFile.targetWordsChecker, forDocxFile.concatList,
                      # ref.https://www.w3schools.com/python/python_lambda.asp
-                     lambda x: forDocxFile.insertToTable(x, outputPath, column)]
+                     lambda x: forDocxFile.insertToTable(x, outputPath, column, filePath)]
 
     # Apply the functions to the input data
     for function in functionsList:
@@ -100,8 +100,10 @@ def selectFiles():
 """Process multiple files."""
 def processMultipleFiles(filePaths, progress_bar):
 
+    # Declare column variable to be changed for each file
     column = 0
 
+    # Determine how many files were uploaded
     total_files = len(filePaths)
 
     # Set the output path for the processed file
@@ -110,10 +112,11 @@ def processMultipleFiles(filePaths, progress_bar):
     # Iterate over each selected file path
     for idx, filePath in enumerate(filePaths, 1):
 
+        # Increment column count so that each files contents is written to a separate one
         column += 1
 
         # Process each file
-        processDocxFile(filePath, outputPath, column)
+        processDocxFile(filePath, outputPath, column, filePath)
 
         # Update progress bar value based on the current file index
         progress_value = (idx / total_files) * 100
